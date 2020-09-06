@@ -1,0 +1,61 @@
+<p id="notice"><%= notice %></p>
+
+<div class="card container">
+  <div class="row no-gutters">
+    <div class="col-1">
+      <br>
+      <%= image_tag (@tweet.user.image_url), size: '100', class:"rounded-circle" if @tweet.user.image_url.present? %>
+    </div>
+    <div class="col-7">
+      <div class="card-body">
+        <h5 class="card-title text-uppercase"><%= @tweet.user.name %></h5>
+        <p class="card-text"><%= @tweet.content %></p>
+        <small class="card-text text-muted"><%= time_ago_in_words(@tweet.created_at, include_seconds: true) %></small>
+      </div>
+    </div>
+        <div class="col-2 align-items-center">
+      <br>likes
+      <%= button_tag (@tweet.likes.count), class:"btn btn-outline-primary rounded-circle" %>
+      <p>
+      <% if current_user.present? %>
+      <% pre_like = @tweet.likes.find { |like| like.user_id == current_user.id} %>
+        <% if pre_like %>
+          <%= button_to 'Unlike', tweet_like_path(@tweet, pre_like), method: :delete, class:"btn btn-danger" %>
+        <% else %>
+          <%= button_to 'Like', tweet_likes_path(@tweet), method: :post, class:"btn btn-primary" %>
+        <% end %>
+      <% end %>
+      </p>
+    </div>
+    <div class="col-2 align-items-center">
+      <br>retweets
+      <%= button_tag (@tweet.retweets.count), class:"btn btn-outline-primary rounded-circle" %>
+      <p>
+         <% if current_user.present? %>
+      <% pre_retweet = @tweet.retweets.find { |retweet| retweet.user_id == current_user.id} %>
+        <% if pre_retweet %>
+          <%= button_to 'Unretweet', tweet_retweet_path(@tweet, pre_retweet), method: :delete, class:"btn btn-danger" %>
+        <% else %>
+          <%= button_to 'retweet', tweet_retweets_path(@tweet), method: :post, class:"btn btn-primary" %>
+        <% end %>
+      <% end %>
+      </p>
+    </div>  
+  </div>
+</div>
+<br>
+<small class="card-text text-muted">Liked by</small>
+ <% @likes.each do |like| %>
+   <%= image_tag (like.user.image_url), size: '50', style:"inline", class:"rounded-circle" %>
+  <% end %> 
+   <br>
+<br>
+<div class="text-center">
+  <% if current_user.present? && @tweet.user.id == current_user.id %>
+  <%= link_to 'Edit', edit_tweet_path(@tweet), class:"btn btn-primary" %> 
+  <%= link_to 'Destroy', @tweet, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
+  <%= link_to 'Back', tweets_path, class:"btn btn-primary" %>
+  <% else %>
+  <%= link_to 'Back', tweets_path, class:"btn btn-primary" %>
+  <% end %>
+</div>

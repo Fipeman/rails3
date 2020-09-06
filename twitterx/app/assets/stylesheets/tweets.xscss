@@ -1,0 +1,7 @@
+// Place all the styles related to the tweets controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+body, p, ol, ul, td {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  line-height: 18px; }
