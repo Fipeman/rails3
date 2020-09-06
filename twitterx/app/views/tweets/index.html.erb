@@ -14,7 +14,14 @@
     <div class="col-7">
       <div class="card-body">
         <h4 class="card-title"><%= tweet.user.name %></h4>
-        <p class="card-text"><%= tweet.content %></p>
+        <% tweet.content.to_s.split(' ').each do |word| %>
+          <% if word.start_with?('#') %>
+        <%= link_to word, root_path(search: word) %>
+          <%else %>
+        <%= word %>
+          <%end %>
+        <% end %>
+        <br>
         <small class="card-text text-muted"><%= link_to time_ago_in_words(tweet.created_at, include_seconds: true), tweet %></small>
       </div>
     </div>

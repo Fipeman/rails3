@@ -5,8 +5,15 @@ class TweetsController < ApplicationController
   # GET /tweets
   # GET /tweets.json
   def index
-    @tweet = Tweet.new
-    @tweets = Tweet.order("created_at DESC").page params[:page]
+    @tweet = Tweet.new 
+    if params[:search]
+      @search = params[:search]
+      @tweets = Tweet.where("content LIKE ?", "%#{@search}%")
+      @tweets.class == Array
+      @tweets = Kaminari.paginate_array(@tweets).page params[:page]  
+    else  
+      @tweets = Tweet.order("created_at DESC").page params[:page]
+    end
   end
 
   # GET /tweets/1
