@@ -2685,3 +2685,656 @@ Processing by TweetsController#index as HTML
 Completed 200 OK in 85ms (Views: 78.7ms | ActiveRecord: 4.5ms | Allocations: 34708)
 
 
+  [1m[35m (2.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateHashTags (20200906032152)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "hash_tags" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "tag" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200906032152"]]
+  [1m[35m (3.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateTweetHashTags (20200906032527)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "tweet_hash_tags" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "tweet_id" integer, "hash_tag_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_tweet_hash_tags_on_tweet_id" ON "tweet_hash_tags" ("tweet_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_tweet_hash_tags_on_hash_tag_id" ON "tweet_hash_tags" ("hash_tag_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20200906032527"]]
+  [1m[35m (7.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mTweet Load (0.2ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" ORDER BY "tweets"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mHashTag Load (0.2ms)[0m  [1m[34mSELECT "hash_tags".* FROM "hash_tags" INNER JOIN "tweet_hash_tags" ON "hash_tags"."id" = "tweet_hash_tags"."hash_tag_id" WHERE "tweet_hash_tags"."tweet_id" = ? LIMIT ?[0m  [["tweet_id", 5], ["LIMIT", 11]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mHashTag Create (0.5ms)[0m  [1m[32mINSERT INTO "hash_tags" ("tag", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["tag", "tag"], ["created_at", "2020-09-06 03:31:21.108579"], ["updated_at", "2020-09-06 03:31:21.108579"]]
+  [1m[35m (7.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTweet Load (0.4ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" INNER JOIN "tweet_hash_tags" ON "tweets"."id" = "tweet_hash_tags"."tweet_id" WHERE "tweet_hash_tags"."hash_tag_id" = ? LIMIT ?[0m  [["hash_tag_id", 1], ["LIMIT", 11]]
+Started GET "/" for ::1 at 2020-09-05 23:44:20 -0400
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by TweetsController#index as HTML
+  Rendering tweets/index.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:2
+  Rendered tweets/_form.html.erb (Duration: 1.0ms | Allocations: 390)
+  [1m[36mTweet Load (0.3ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" ORDER BY created_at DESC LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 0]]
+  ↳ app/views/tweets/index.html.erb:7
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.2ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.2ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 1]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 1]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 1]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 1]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "tweets"[0m
+  ↳ app/views/tweets/index.html.erb:60
+  Rendered tweets/index.html.erb within layouts/application (Duration: 88.5ms | Allocations: 43318)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_navbar.html.erb (Duration: 0.3ms | Allocations: 238)
+Completed 200 OK in 138ms (Views: 92.5ms | ActiveRecord: 4.2ms | Allocations: 59313)
+
+
+Started POST "/tweets" for ::1 at 2020-09-05 23:44:36 -0400
+Processing by TweetsController#create as HTML
+  Parameters: {"authenticity_token"=>"VF28gZ+zbFG8nV/QoSUhzukVipR/B5TWw0MjdZUJlAroQTBUs586ldfy8cjM+e2JXhpPMiLL8CqttkFSIGVucA==", "tweet"=>{"content"=>"#uno lorem ipsum"}, "commit"=>"tweet!"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/tweets_controller.rb:38:in `create'
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/tweets_controller.rb:41:in `block in create'
+  [1m[36mTweet Create (0.5ms)[0m  [1m[32mINSERT INTO "tweets" ("content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["content", "#uno lorem ipsum"], ["user_id", 1], ["created_at", "2020-09-06 03:44:36.751134"], ["updated_at", "2020-09-06 03:44:36.751134"]]
+  ↳ app/controllers/tweets_controller.rb:41:in `block in create'
+  [1m[35m (2.7ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/tweets_controller.rb:41:in `block in create'
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/models/tweet.rb:15:in `block in create_hash_tags'
+  [1m[36mHashTag Create (0.4ms)[0m  [1m[32mINSERT INTO "hash_tags" ("tag", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["tag", "uno"], ["created_at", "2020-09-06 03:44:36.785094"], ["updated_at", "2020-09-06 03:44:36.785094"]]
+  ↳ app/models/tweet.rb:15:in `block in create_hash_tags'
+  [1m[36mTweetHashTag Create (0.4ms)[0m  [1m[32mINSERT INTO "tweet_hash_tags" ("tweet_id", "hash_tag_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["tweet_id", 6], ["hash_tag_id", 2], ["created_at", "2020-09-06 03:44:36.796379"], ["updated_at", "2020-09-06 03:44:36.796379"]]
+  ↳ app/models/tweet.rb:15:in `block in create_hash_tags'
+  [1m[35m (2.8ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/models/tweet.rb:15:in `block in create_hash_tags'
+Redirected to http://localhost:3000/tweets
+Completed 302 Found in 64ms (ActiveRecord: 8.5ms | Allocations: 24126)
+
+
+Started GET "/tweets" for ::1 at 2020-09-05 23:44:36 -0400
+Processing by TweetsController#index as HTML
+  Rendering tweets/index.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:2
+  Rendered tweets/_form.html.erb (Duration: 1.1ms | Allocations: 328)
+  [1m[36mTweet Load (0.3ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" ORDER BY created_at DESC LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 0]]
+  ↳ app/views/tweets/index.html.erb:7
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.2ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.2ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "tweets"[0m
+  ↳ app/views/tweets/index.html.erb:60
+  Rendered tweets/index.html.erb within layouts/application (Duration: 86.5ms | Allocations: 27959)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_navbar.html.erb (Duration: 0.4ms | Allocations: 241)
+Completed 200 OK in 99ms (Views: 91.8ms | ActiveRecord: 4.8ms | Allocations: 34793)
+
+
+Started GET "/?search=%23uno" for ::1 at 2020-09-05 23:44:40 -0400
+Processing by TweetsController#index as HTML
+  Parameters: {"search"=>"#uno"}
+  [1m[36mTweet Load (0.5ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" WHERE (content LIKE '%#uno%')[0m
+  ↳ app/controllers/tweets_controller.rb:13:in `index'
+  Rendering tweets/index.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:2
+  Rendered tweets/_form.html.erb (Duration: 1.0ms | Allocations: 330)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.2ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.2ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:47
+  Rendered tweets/index.html.erb within layouts/application (Duration: 25.7ms | Allocations: 5761)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_navbar.html.erb (Duration: 0.5ms | Allocations: 236)
+Completed 200 OK in 47ms (Views: 38.7ms | ActiveRecord: 2.1ms | Allocations: 13184)
+
+
+Started POST "/tweets" for ::1 at 2020-09-05 23:45:03 -0400
+Processing by TweetsController#create as HTML
+  Parameters: {"authenticity_token"=>"89ORe2RWSv0cgxvsG4JlflKI0/ZuG7VkCPUCQoW6FsFPzx2uSHocOXfstfR2Xqk55YcWUDPX0ZhmAGBlMNbsuw==", "tweet"=>{"content"=>"Lorem ipsum dolor sit amet, #uno adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum l"}, "commit"=>"tweet!"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/tweets_controller.rb:38:in `create'
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/tweets_controller.rb:41:in `block in create'
+  [1m[36mTweet Create (0.4ms)[0m  [1m[32mINSERT INTO "tweets" ("content", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["content", "Lorem ipsum dolor sit amet, #uno adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum l"], ["user_id", 1], ["created_at", "2020-09-06 03:45:03.604105"], ["updated_at", "2020-09-06 03:45:03.604105"]]
+  ↳ app/controllers/tweets_controller.rb:41:in `block in create'
+  [1m[35m (3.7ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/tweets_controller.rb:41:in `block in create'
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/models/tweet.rb:15:in `block in create_hash_tags'
+  [1m[36mHashTag Create (0.5ms)[0m  [1m[32mINSERT INTO "hash_tags" ("tag", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["tag", "uno"], ["created_at", "2020-09-06 03:45:03.621079"], ["updated_at", "2020-09-06 03:45:03.621079"]]
+  ↳ app/models/tweet.rb:15:in `block in create_hash_tags'
+  [1m[36mTweetHashTag Create (0.4ms)[0m  [1m[32mINSERT INTO "tweet_hash_tags" ("tweet_id", "hash_tag_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["tweet_id", 7], ["hash_tag_id", 3], ["created_at", "2020-09-06 03:45:03.642782"], ["updated_at", "2020-09-06 03:45:03.642782"]]
+  ↳ app/models/tweet.rb:15:in `block in create_hash_tags'
+  [1m[35m (2.4ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/models/tweet.rb:15:in `block in create_hash_tags'
+Redirected to http://localhost:3000/tweets
+Completed 302 Found in 54ms (ActiveRecord: 7.8ms | Allocations: 11296)
+
+
+Started GET "/tweets" for ::1 at 2020-09-05 23:45:03 -0400
+Processing by TweetsController#index as HTML
+  Rendering tweets/index.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:2
+  Rendered tweets/_form.html.erb (Duration: 1.2ms | Allocations: 328)
+  [1m[36mTweet Load (0.5ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" ORDER BY created_at DESC LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 0]]
+  ↳ app/views/tweets/index.html.erb:7
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.2ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "tweets"[0m
+  ↳ app/views/tweets/index.html.erb:60
+  Rendered tweets/index.html.erb within layouts/application (Duration: 64.6ms | Allocations: 25730)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_navbar.html.erb (Duration: 0.4ms | Allocations: 233)
+Completed 200 OK in 75ms (Views: 68.4ms | ActiveRecord: 5.2ms | Allocations: 32556)
+
+
+Started GET "/tweets?page=2" for ::1 at 2020-09-05 23:45:09 -0400
+Processing by TweetsController#index as HTML
+  Parameters: {"page"=>"2"}
+  Rendering tweets/index.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:2
+  Rendered tweets/_form.html.erb (Duration: 1.4ms | Allocations: 328)
+  [1m[36mTweet Load (0.4ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" ORDER BY created_at DESC LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 5]]
+  ↳ app/views/tweets/index.html.erb:7
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.3ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 2]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 1]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.2ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 1]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 1]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 1]]
+  ↳ app/views/tweets/index.html.erb:47
+  Rendered tweets/index.html.erb within layouts/application (Duration: 49.4ms | Allocations: 12838)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_navbar.html.erb (Duration: 0.5ms | Allocations: 239)
+Completed 200 OK in 60ms (Views: 55.9ms | ActiveRecord: 2.6ms | Allocations: 19658)
+
+
+Started GET "/tweets" for ::1 at 2020-09-05 23:45:12 -0400
+Processing by TweetsController#index as HTML
+  Rendering tweets/index.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:2
+  Rendered tweets/_form.html.erb (Duration: 1.8ms | Allocations: 330)
+  [1m[36mTweet Load (0.7ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" ORDER BY created_at DESC LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 0]]
+  ↳ app/views/tweets/index.html.erb:7
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.3ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.2ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.2ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.2ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.2ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.4ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.3ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[35m (5.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "tweets"[0m
+  ↳ app/views/tweets/index.html.erb:60
+  Rendered tweets/index.html.erb within layouts/application (Duration: 94.2ms | Allocations: 25441)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_navbar.html.erb (Duration: 0.4ms | Allocations: 233)
+Completed 200 OK in 107ms (Views: 92.1ms | ActiveRecord: 12.3ms | Allocations: 32247)
+
+
+Started GET "/?search=%23uno" for ::1 at 2020-09-05 23:45:18 -0400
+Processing by TweetsController#index as HTML
+  Parameters: {"search"=>"#uno"}
+  [1m[36mTweet Load (0.4ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" WHERE (content LIKE '%#uno%')[0m
+  ↳ app/controllers/tweets_controller.rb:13:in `index'
+  Rendering tweets/index.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:2
+  Rendered tweets/_form.html.erb (Duration: 1.1ms | Allocations: 328)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.4ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.3ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:47
+  Rendered tweets/index.html.erb within layouts/application (Duration: 34.7ms | Allocations: 10026)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_navbar.html.erb (Duration: 0.4ms | Allocations: 236)
+Completed 200 OK in 47ms (Views: 39.7ms | ActiveRecord: 3.0ms | Allocations: 17457)
+
+
+Started GET "/" for ::1 at 2020-09-05 23:45:22 -0400
+Processing by TweetsController#index as HTML
+  Rendering tweets/index.html.erb within layouts/application
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:2
+  Rendered tweets/_form.html.erb (Duration: 1.1ms | Allocations: 328)
+  [1m[36mTweet Load (0.8ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" ORDER BY created_at DESC LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 0]]
+  ↳ app/views/tweets/index.html.erb:7
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.4ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.2ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.2ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "tweets"[0m
+  ↳ app/views/tweets/index.html.erb:60
+  Rendered tweets/index.html.erb within layouts/application (Duration: 88.2ms | Allocations: 25454)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_navbar.html.erb (Duration: 0.4ms | Allocations: 233)
+Completed 200 OK in 99ms (Views: 90.8ms | ActiveRecord: 6.1ms | Allocations: 32261)
+
+
+Started GET "/admin" for ::1 at 2020-09-05 23:45:35 -0400
+Processing by Admin::DashboardController#index as HTML
+  [1m[36mAdminUser Load (0.3ms)[0m  [1m[34mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = ? ORDER BY "admin_users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering /home/fipeman/.rvm/gems/ruby-2.5.3/gems/activeadmin-2.8.0/app/views/active_admin/page/index.html.arb
+  Rendered /home/fipeman/.rvm/gems/ruby-2.5.3/gems/activeadmin-2.8.0/app/views/active_admin/page/index.html.arb (Duration: 22.2ms | Allocations: 21278)
+Completed 200 OK in 41ms (Views: 23.7ms | ActiveRecord: 1.2ms | Allocations: 29841)
+
+
+Started GET "/admin/users" for ::1 at 2020-09-05 23:45:38 -0400
+Processing by Admin::UsersController#index as HTML
+  [1m[36mAdminUser Load (0.2ms)[0m  [1m[34mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = ? ORDER BY "admin_users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering /home/fipeman/.rvm/gems/ruby-2.5.3/gems/activeadmin-2.8.0/app/views/active_admin/resource/index.html.arb
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM "users" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM "users" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "users"[0m
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM "users" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" desc LIMIT ? OFFSET ?[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "tweets" WHERE "tweets"."user_id" = ?[0m  [["user_id", 2]]
+  ↳ app/admin/users.rb:11:in `block (4 levels) in <top (required)>'
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "tweets" WHERE "tweets"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/admin/users.rb:11:in `block (4 levels) in <top (required)>'
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."user_id" = ?[0m  [["user_id", 2]]
+  ↳ app/admin/users.rb:12:in `block (4 levels) in <top (required)>'
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/admin/users.rb:12:in `block (4 levels) in <top (required)>'
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."user_id" = ?[0m  [["user_id", 2]]
+  ↳ app/admin/users.rb:13:in `block (4 levels) in <top (required)>'
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."user_id" = ?[0m  [["user_id", 1]]
+  ↳ app/admin/users.rb:13:in `block (4 levels) in <top (required)>'
+  Rendered /home/fipeman/.rvm/gems/ruby-2.5.3/gems/activeadmin-2.8.0/app/views/active_admin/resource/index.html.arb (Duration: 79.2ms | Allocations: 53631)
+Completed 200 OK in 89ms (Views: 79.7ms | ActiveRecord: 2.3ms | Allocations: 57024)
+
+
+Started GET "/" for ::1 at 2020-09-05 23:45:49 -0400
+Processing by TweetsController#index as HTML
+  Rendering tweets/index.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:2
+  Rendered tweets/_form.html.erb (Duration: 0.9ms | Allocations: 336)
+  [1m[36mTweet Load (0.4ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" ORDER BY created_at DESC LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 0]]
+  ↳ app/views/tweets/index.html.erb:7
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.2ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.2ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.1ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:33
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mRetweet Load (0.2ms)[0m  [1m[34mSELECT "retweets".* FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:47
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "tweets"[0m
+  ↳ app/views/tweets/index.html.erb:60
+  Rendered tweets/index.html.erb within layouts/application (Duration: 85.7ms | Allocations: 25466)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_navbar.html.erb (Duration: 0.4ms | Allocations: 235)
+Completed 200 OK in 98ms (Views: 90.7ms | ActiveRecord: 5.4ms | Allocations: 32279)
+
+
+Started DELETE "/users/sign_out" for ::1 at 2020-09-05 23:48:50 -0400
+Processing by Users::SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"8oe2EGIdqO0j5j2ZuxGrKyJ6yV36gE9+/zvp+Ll+dwV+keOWFmLfNRblsEKEBtWFHdkmZlsfzOJfvJEI5WE4vQ=="}
+  [1m[36mAdminUser Load (0.2ms)[0m  [1m[34mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = ? ORDER BY "admin_users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+Redirected to http://localhost:3000/
+Completed 302 Found in 11ms (ActiveRecord: 0.4ms | Allocations: 4413)
+
+
+Started GET "/" for ::1 at 2020-09-05 23:48:50 -0400
+Processing by TweetsController#index as HTML
+  Rendering tweets/index.html.erb within layouts/application
+  [1m[36mTweet Load (0.4ms)[0m  [1m[34mSELECT "tweets".* FROM "tweets" ORDER BY created_at DESC LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 0]]
+  ↳ app/views/tweets/index.html.erb:7
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 7]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 6]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 5]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 4]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/tweets/index.html.erb:12
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "likes" WHERE "likes"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:30
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "retweets" WHERE "retweets"."tweet_id" = ?[0m  [["tweet_id", 3]]
+  ↳ app/views/tweets/index.html.erb:44
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "tweets"[0m
+  ↳ app/views/tweets/index.html.erb:60
+  Rendered tweets/index.html.erb within layouts/application (Duration: 45.1ms | Allocations: 16399)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered shared/_navbar.html.erb (Duration: 0.4ms | Allocations: 198)
+Completed 200 OK in 55ms (Views: 50.0ms | ActiveRecord: 3.2ms | Allocations: 23163)
+
+
