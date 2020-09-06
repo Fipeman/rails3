@@ -4,11 +4,14 @@
 <% end %>
 <br>
 
+<%= current_user.followers.ids %>
 <% @tweets.each do |tweet| %>
 <div class="card container">
   <div class="row no.gutters">
     <div class="col-1">
     <br>
+      <% user_follow = tweet.user_id%>
+      <%= tweet.user.followings.ids %>
       <%= image_tag (tweet.user.image_url), size: '100', class:"rounded-circle"  if tweet.user.image_url.present? %>
     </div>  
     <div class="col-7">

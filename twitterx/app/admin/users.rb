@@ -11,6 +11,9 @@ ActiveAdmin.register User do
       t.column("tweets"){ |user| user.tweets.count}
       t.column("likes"){ |user| user.likes.count}
       t.column("retweets"){ |user| user.retweets.count}
+      t.column("followers"){ |user| user.followers.count}
+      t.column("followings"){ |user| user.followings.count}
+      
       # id_column
     # column :name
     # column :email

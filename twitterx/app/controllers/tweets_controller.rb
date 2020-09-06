@@ -83,6 +83,7 @@ class TweetsController < ApplicationController
       params.require(:tweet).permit(:content, :likes_count, :retweets_count, :user_id,
         users_attributes: [:id, :email, :name, :image_url],
         likes_attributes: [:id, :tweet_id, :user_id],
-        retweets_attributes: [:id, :retweet_id, :user_id])
+        retweets_attributes: [:id, :retweet_id, :user_id],
+        follows_attributes: [:id, :follower_id, :following_id])
     end
 end
