@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <% if current_user.present?%>
-        <li><%=link_to current_user.name, new_tweet_path, class: 'nav-link text-uppercase active' %></li>
+        <li><%=link_to current_user.name, "", class: 'nav-link text-uppercase active' %></li>
         <li><%=link_to 'New Tweet', new_tweet_path, class: 'nav-link' %></li>
         <li><%=link_to 'My Tweets', tweets_path, class: 'nav-link' %></li>
         <li role="separator" class="divider"></li>

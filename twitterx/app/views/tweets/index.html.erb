@@ -3,16 +3,21 @@
 <%= render 'form', tweet: @tweet %>
 <% end %>
 <br>
-
+<% if current_user.present? %>
 <%= current_user.followers.ids %>
+<% end %>
 <% @tweets.each do |tweet| %>
 <div class="card container">
   <div class="row no.gutters">
     <div class="col-1">
     <br>
-      <% user_follow = tweet.user_id%>
-      <%= tweet.user.followings.ids %>
-      <%= image_tag (tweet.user.image_url), size: '100', class:"rounded-circle"  if tweet.user.image_url.present? %>
+      <%= image_tag (tweet.user.image_url), size: '80', class:"rounded-circle"  if tweet.user.image_url.present? %>
+      <%# <% if current_user.id == user.follower_id %>
+       <%= "" %>
+      <%else %> 
+      <% if current_user.present? %>  
+       <%= button_to 'follow',tweet_follows_path(tweet), method: :post, class:"btn btn-primary"%>
+      <% end %>  
     </div>  
     <div class="col-7">
       <div class="card-body">

@@ -1,5 +1,6 @@
 class Tweet < ApplicationRecord
-  # scope: tweets_for_me, -> (user_id) {where(user_id: current_user && user_id: followings.ids)}
+  scope :tweets_for_me, -> { where(user_id: current_user.followings.ids)}
+  # && user_id: followings.ids)
   belongs_to :user
   has_many :likes, dependent: :destroy
   has_many :retweets, dependent: :destroy

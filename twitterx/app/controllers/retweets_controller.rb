@@ -6,8 +6,10 @@ class RetweetsController < ApplicationController
       flash[:notice] = "You can't retweet more than once"
     else
       @tweet.retweets.create(user_id: current_user.id)
-      @tweet = Tweet.new(user_id: current_user.id, content: @tweet.content)
+      @tweet = Tweet.new(user_id: current_user.id, content: "Retweet from ↪ : #{@tweet.user.name} --#{@tweet.content}--")
+      @tweet.retweets_count += 1 
     end
+      @tweet.save
       redirect_to tweets_path(@tweet), notice: 'Retweet it!.'
   end
 
@@ -16,7 +18,9 @@ class RetweetsController < ApplicationController
       flash[:notice] = "Cannot unretweet"
     else
       @retweet.destroy
+      @tweet.retweets_count -= 1 
     end
+    @tweet.save
     redirect_to tweets_path(@tweet)
   end
 
